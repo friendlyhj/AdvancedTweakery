@@ -8,22 +8,16 @@ import zmaster587.libVulpes.recipe.RecipesMachine;
  */
 public class RecipeAdditionAction implements IAction {
     private final Class<?> clazz;
-    private final Object[] outs;
-    private final int timeRequired;
-    private final int power;
-    private final Object[] inputs;
+    private final RecipesMachine.Recipe recipe;
 
-    public RecipeAdditionAction(Class<?> clazz, Object[] outs, int timeRequired, int power, Object[] inputs) {
+    public RecipeAdditionAction(Class<?> clazz, RecipesMachine.Recipe recipe) {
         this.clazz = clazz;
-        this.outs = outs;
-        this.timeRequired = timeRequired;
-        this.power = power;
-        this.inputs = inputs;
+        this.recipe = recipe;
     }
 
     @Override
     public void apply() {
-        RecipesMachine.getInstance().addRecipe(clazz, outs, timeRequired, power, inputs);
+        RecipesMachine.getInstance().getRecipes(clazz).add(recipe);
     }
 
     @Override
