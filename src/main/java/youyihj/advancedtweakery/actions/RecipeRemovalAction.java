@@ -6,17 +6,24 @@ import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import crafttweaker.mc1120.liquid.MCLiquidStack;
 import net.minecraftforge.fluids.FluidStack;
+import youyihj.zenutils.api.reload.Reloadable;
+import youyihj.zenutils.api.util.ReflectionInvoked;
 import zmaster587.libVulpes.interfaces.IRecipe;
 import zmaster587.libVulpes.recipe.RecipesMachine;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * @author youyihj
  */
+@Reloadable
 public class RecipeRemovalAction implements IAction {
     private final Class<?> clazz;
     private final Object[] outs;
+
+    private final List<IRecipe> removedRecipes = new ArrayList<>();
 
     public RecipeRemovalAction(Class<?> clazz, Object[] outs) {
         this.clazz = clazz;
@@ -25,7 +32,19 @@ public class RecipeRemovalAction implements IAction {
 
     @Override
     public void apply() {
-        RecipesMachine.getInstance().recipeList.get(clazz).removeIf(this::matchesRecipe);
+        Iterator<IRecipe> iterator = RecipesMachine.getInstance().recipeList.get(clazz).iterator();
+        while (iterator.hasNext()) {
+            IRecipe recipe = iterator.next();
+            if (this.matchesRecipe(recipe)) {
+                iterator.remove();
+                removedRecipes.add(recipe);
+            }
+        }
+    }
+
+    @ReflectionInvoked
+    public void undo() {
+        RecipesMachine.getInstance().recipeList.get(clazz).addAll(removedRecipes);
     }
 
     @Override
