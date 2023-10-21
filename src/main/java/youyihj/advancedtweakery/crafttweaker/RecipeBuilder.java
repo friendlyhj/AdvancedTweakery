@@ -114,6 +114,18 @@ public class RecipeBuilder {
     }
 
     @ZenMethod
+    public RecipeBuilder outputItem(IItemStack stack) {
+        outputs.add(new RecipesMachine.ChanceItemStack(CraftTweakerMC.getItemStack(stack), 0.0f));
+        return this;
+    }
+
+    @ZenMethod
+    public RecipeBuilder outputLiquid(ILiquidStack stack) {
+        fluidOutputs.add(new RecipesMachine.ChanceFluidStack(CraftTweakerMC.getLiquidStack(stack), 0.0f));
+        return this;
+    }
+
+    @ZenMethod
     public RecipeBuilder outputItem(WeightedItemStack stack) {
         outputs.add(new RecipesMachine.ChanceItemStack(CraftTweakerMC.getItemStack(stack.getStack()), stack.getPercent()));
         return this;
@@ -136,6 +148,22 @@ public class RecipeBuilder {
     @ZenMethod
     public RecipeBuilder outputs(WeightedLiquidStack... liquids) {
         for (WeightedLiquidStack liquid : liquids) {
+            outputLiquid(liquid);
+        }
+        return this;
+    }
+
+    @ZenMethod
+    public RecipeBuilder outputs(IItemStack... items) {
+        for (IItemStack item : items) {
+            outputItem(item);
+        }
+        return this;
+    }
+
+    @ZenMethod
+    public RecipeBuilder outputs(ILiquidStack... liquids) {
+        for (ILiquidStack liquid : liquids) {
             outputLiquid(liquid);
         }
         return this;
