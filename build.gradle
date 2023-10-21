@@ -14,7 +14,7 @@ buildscript {
 apply plugin: "net.minecraftforge.gradle.forge"
 
 group = 'youyihj'
-version = '1.1'
+version = '1.2'
 archivesBaseName = 'AdvancedTweakery'
 
 minecraft {
@@ -44,6 +44,14 @@ repositories {
         name = 'jei'
         url = 'https://dvs1.progwml6.com/files/maven'
     }
+    maven {
+        name = "Cleanroom"
+        url "https://maven.cleanroommc.com"
+    }
+    maven {
+        name = "cofh"
+        url = "https://maven.covers1624.net"
+    }
 }
 
 dependencies {
@@ -53,6 +61,8 @@ dependencies {
     deobfCompile 'curse.maven:AdvancedRocketry-236542:3801020'
     deobfCompile 'curse.maven:zenutil-401178:4746454'
     deobfCompile 'mezz.jei:jei_1.12.2:4.16.1.302'
+    deobfCompile 'zone.rong:mixinbooter:7.0'
+    deobfCompile "cofh:RedstoneFlux:1.12-2.1.0.+:universal"
 }
 
 processResources {
